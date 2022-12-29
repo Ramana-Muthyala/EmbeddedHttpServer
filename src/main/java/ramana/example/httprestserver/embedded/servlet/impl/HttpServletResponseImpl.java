@@ -13,7 +13,7 @@ import java.util.*;
 public class HttpServletResponseImpl implements HttpServletResponse {
 
     public final ResponseMessage responseMessage;
-    public final Map<String, List<String>> headers = new HashMap<>();
+    public final Map<String, ArrayList<String>> headers = new HashMap<>();
     public String charEncoding;
     public String contentType;
     private int contentLength;
@@ -33,7 +33,7 @@ public class HttpServletResponseImpl implements HttpServletResponse {
 
     @Override
     public boolean containsHeader(String s) {
-        return responseMessage.headers.contains(s);
+        return responseMessage.headers.containsKey(s);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class HttpServletResponseImpl implements HttpServletResponse {
 
     @Override
     public void setDateHeader(String s, long l) {
-        List<String> value = headers.get(s);
+        ArrayList<String> value = headers.get(s);
         if(value == null) {
             value = new ArrayList<>();
             headers.put(s, value);
@@ -85,17 +85,13 @@ public class HttpServletResponseImpl implements HttpServletResponse {
 
     @Override
     public void addDateHeader(String s, long l) {
-        List<String> value = headers.get(s);
-        if(value == null) {
-            value = new ArrayList<>();
-            headers.put(s, value);
-        }
+        ArrayList<String> value = headers.computeIfAbsent(s, k -> new ArrayList<>());
         value.add(new Date(l).toGMTString());
     }
 
     @Override
     public void setHeader(String s, String s1) {
-        List<String> value = headers.get(s);
+        ArrayList<String> value = headers.get(s);
         if(value == null) {
             value = new ArrayList<>();
             headers.put(s, value);
@@ -107,17 +103,13 @@ public class HttpServletResponseImpl implements HttpServletResponse {
 
     @Override
     public void addHeader(String s, String s1) {
-        List<String> value = headers.get(s);
-        if(value == null) {
-            value = new ArrayList<>();
-            headers.put(s, value);
-        }
+        ArrayList<String> value = headers.computeIfAbsent(s, k -> new ArrayList<>());
         value.add(s1);
     }
 
     @Override
     public void setIntHeader(String s, int i) {
-        List<String> value = headers.get(s);
+        ArrayList<String> value = headers.get(s);
         if(value == null) {
             value = new ArrayList<>();
             headers.put(s, value);
@@ -129,11 +121,7 @@ public class HttpServletResponseImpl implements HttpServletResponse {
 
     @Override
     public void addIntHeader(String s, int i) {
-        List<String> value = headers.get(s);
-        if(value == null) {
-            value = new ArrayList<>();
-            headers.put(s, value);
-        }
+        ArrayList<String> value = headers.computeIfAbsent(s, k -> new ArrayList<>());
         value.add(String.valueOf(i));
     }
 

@@ -1,23 +1,11 @@
 package ramana.example.httprestserver.embedded.servlet.impl;
 
-import ramana.example.niotcpserver.codec.http.request.Field;
-import ramana.example.niotcpserver.codec.http.response.ResponseMessage;
-
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class Util {
     public static final String CONTENT_TYPE = "Content-Type";
-
-    public static Map<String, List<String>> getHeadersAsMap(List<Field> headers) {
-        Map<String, List<String>> result = new HashMap<>();
-        for (Field field: headers) {
-            result.put(field.name, field.values);
-        }
-        return result;
-    }
 
     public static String getQueryString(Map<String, String> queryParameters) {
         if(queryParameters == null || queryParameters.size() == 0) return null;

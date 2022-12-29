@@ -4,7 +4,6 @@ import ramana.example.httprestserver.embedded.servlet.impl.HttpServletRequestImp
 import ramana.example.httprestserver.embedded.servlet.impl.HttpServletResponseImpl;
 import ramana.example.httprestserver.embedded.servlet.impl.ServletContextImpl;
 import ramana.example.niotcpserver.codec.http.Util;
-import ramana.example.niotcpserver.codec.http.request.Field;
 import ramana.example.niotcpserver.codec.http.request.v1.RequestMessage;
 import ramana.example.niotcpserver.codec.http.response.ResponseMessage;
 import ramana.example.niotcpserver.codec.http.v1.Processor;
@@ -26,7 +25,7 @@ public class RequestProcessor implements Processor {
     static {
         values.add(String.valueOf(0));
     }
-    private static final Field zeroContentLengthHeader = new Field(Util.REQ_HEADER_CONTENT_LENGTH, values);
+
     private final ResponseHandler responseHandler = new ResponseHandler();
     private final int port;
 
@@ -59,6 +58,6 @@ public class RequestProcessor implements Processor {
         responseMessage.statusCode = Util.STATUS_INTERNAL_SERVER_ERROR;
         responseMessage.headers.clear();
         responseMessage.body = null;
-        responseMessage.headers.add(zeroContentLengthHeader);
+        responseMessage.headers.put(Util.REQ_HEADER_CONTENT_LENGTH, values);
     }
 }

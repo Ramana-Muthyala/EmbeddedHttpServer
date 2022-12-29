@@ -11,16 +11,16 @@ import java.util.*;
 public class HttpServletRequestImpl implements HttpServletRequest {
     private final RequestMessage requestMessage;
     private final ServletContextImpl servletContext;
-    private final Map<String, List<String>> headers;
+    private final Map<String, ArrayList<String>> headers;
     private final int port;
-    private HashMap<String, Object> attributes = new HashMap<>();
+    private final HashMap<String, Object> attributes = new HashMap<>();
     private String encoding;
 
     public HttpServletRequestImpl(int port, RequestMessage requestMessage, ServletContextImpl servletContext) {
         this.port = port;
         this.requestMessage = requestMessage;
         this.servletContext = servletContext;
-        headers = Util.getHeadersAsMap(requestMessage.headers);
+        headers = requestMessage.headers;
     }
 
     @Override
